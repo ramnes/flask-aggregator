@@ -1,6 +1,8 @@
 Flask-Aggregator
 ================
 
+.. image:: https://img.shields.io/pypi/v/flask-aggregator.svg
+
 Batch the GET requests to your API into a single POST. Save requests latency and
 reduce REST chatiness.
 
