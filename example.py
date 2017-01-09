@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_aggregator import Aggregator
 
 app = Flask(__name__)
-Aggregator(app, "/batch")
+Aggregator(app=app, endpoint="/batch")
 
 
 @app.route("/hello/<name>", methods=["GET"])
