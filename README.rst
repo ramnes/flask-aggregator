@@ -16,8 +16,8 @@ What does it do?
 ----------------
 
 Flask-Aggregator adds an endpoint to your Flask application that handles
-multiple GET requests in a single POST, and returns the reponse of each GET
-request in a single JSON answer.
+multiple GET requests in a single POST, and returns the response of each GET
+request in a JSON stream.
 
 
 What does that mean?
@@ -91,9 +91,20 @@ How to aggregate?
 Is it ready for production yet?
 -------------------------------
 
-Well, read the source code and decide by yourself!
+Not really.
 
-Chances are high that a lot of corner cases are not handled.
+As of today, Flask-Aggregator executes the aggregated requests in a
+synchronous manner, which makes it only useful if latency is a real issue and
+response time is not, and that more than N requests are sent at the same time,
+where N is maximum number of concurrent requests on user's client.
+
+Also, it has limitations such has:
+
+* no automatic caching mechanism browser-side, since it uses a POST request
+* no header support at all for now, which means no cookie, etag, or whatever
+* no other HTTP verb than GET is supported for now
+
+Last but not least, chances are high that a lot of corner cases are not handled.
 
 
 License
