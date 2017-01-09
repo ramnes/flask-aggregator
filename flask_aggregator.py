@@ -9,7 +9,7 @@ class Aggregator(object):
 
     def __init__(self, app=None, endpoint=None):
         self.url_map = {}
-        self.endpoint = endpoint or "/aggregator"
+        self.endpoint = endpoint or "/aggregate"
         if app:
             self.init_app(app)
 
