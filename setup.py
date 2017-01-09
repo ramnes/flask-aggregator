@@ -10,7 +10,7 @@ setup(
     name='Flask-Aggregator',
     version='0.1',
     url='',
-    license='',
+    license='MIT',
     author='Guillaume Gelin',
     author_email='contact@ramnes.eu',
     description='Requests aggregator for Flask.',

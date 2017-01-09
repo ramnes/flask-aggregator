@@ -45,3 +45,9 @@ Is it ready for production yet?
 Well, read the source code and decide by yourself!
 
 Chances are high that a lot of corner cases are not handled.
+
+
+License
+-------
+
+MIT
