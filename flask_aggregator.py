@@ -1,7 +1,8 @@
 import json
 
-from flask import request as current_request, Response
+from flask import request, Request, Response
 from werkzeug.exceptions import BadRequest
+from werkzeug.test import EnvironBuilder
 
 
 class Aggregator(object):
@@ -13,22 +14,34 @@ class Aggregator(object):
             self.init_app(app)
 
     def init_app(self, app):
-        self.client = app.test_client()
-        app.add_url_rule(self.endpoint, view_func=self.post, methods=["POST"])
+        self.app = app
+        self.app.add_url_rule(self.endpoint, view_func=self.post, methods=["POST"])
+
+    def get_response(self, route):
+        query_string = ""
+        if '?' in route:
+            route, query_string = route.split('?', 1)
+
+        builder = EnvironBuilder(path=route, query_string=query_string)
+        self.app.request_context(builder.get_environ()).push()
+        return self.app.dispatch_request()
 
     def post(self):
         try:
-            requests = json.loads(current_request.data)
-            if not isinstance(requests, list):
+            data = request.data.decode('utf-8')
+            routes = json.loads(data)
+            if not isinstance(routes, list):
                 raise TypeError
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
             raise BadRequest("Can't get requests list.")
 
         def __generate():
             data = None
-            for request in requests:
-                yield data + ',' if data else '{'
-                data = '"{}": {}'.format(request, self.client.get(request).data)
+            for route in routes:
+                yield data + ', ' if data else '{'
+                response = self.get_response(route)
+                json_response = json.dumps(response)
+                data = '"{}": {}'.format(route, json_response)
             yield data + '}'
 
         return Response(__generate(), mimetype='application/json')
