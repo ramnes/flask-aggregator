@@ -1,7 +1,13 @@
 Flask-Aggregator
 ================
 
-Batch the GET requests to your REST API into a single POST!
+Batch the GET requests to your API into a single POST. Save requests latency and
+reduce REST chatiness.
+
+I was inspired by `this article
+<http://tech.3scale.net/2013/04/18/accelerate-your-mobile-api-with-nginx-and-lua/>`_
+from 3scale, and by `their NGINX aggregator
+<https://github.com/solso/api-aggregator>`_ - but I wanted something simpler.
 
 
 What does it do?
@@ -10,6 +16,39 @@ What does it do?
 Flask-Aggregator adds an endpoint to your Flask application that handles
 multiple GET requests in a single POST, and returns the reponse of each GET
 request in a single JSON answer.
+
+
+What does that mean?
+--------------------
+
+It means that instead of sending multiple GET requests:
+
+.. code-block:: sh
+
+   -> GET /route1
+   <- answer1
+   -> GET /route2
+   <- answer2
+   -> GET /route3
+   <- answer3
+
+
+You can now just send a single POST that aggregates them all:
+
+.. code-block:: sh
+
+  -> POST /aggregate ["/route1", "/route2", "/route3"]
+  <- {
+         "/route1": answer1,
+         "/route2": answer2,
+         "/route3": answer3
+     }
+
+
+Why?
+----
+
+Mobile networks.
 
 
 How to setup my application?
@@ -25,7 +64,7 @@ How to setup my application?
 
 
 How to aggregate?
------------------------------------
+-----------------
 
 .. code-block:: sh
 
