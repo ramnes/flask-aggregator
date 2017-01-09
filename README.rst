@@ -51,6 +51,14 @@ Why?
 Mobile networks.
 
 
+How to install?
+---------------
+
+.. code-block:: sh
+
+    $ pip install flask-aggregator
+
+
 How to setup my application?
 ----------------------------
 

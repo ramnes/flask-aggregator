@@ -8,12 +8,12 @@ def get_description():
 
 setup(
     name='Flask-Aggregator',
-    version='0.1',
-    url='',
+    version='0.1.0',
+    url='https://github.com/ramnes/flask-aggregator',
     license='MIT',
     author='Guillaume Gelin',
     author_email='contact@ramnes.eu',
-    description='Requests aggregator for Flask.',
+    description='Batch the GET requests to your REST API into a single POST',
     long_description=get_description(),
     py_modules=['flask_aggregator'],
     include_package_data=True,
