@@ -14,19 +14,19 @@ class Aggregator(object):
             self.init_app(app)
 
     def init_app(self, app):
-        self.app = app
-        self.app.add_url_rule(self.endpoint, view_func=self.post, methods=["POST"])
+        app.add_url_rule(self.endpoint, view_func=self.post, methods=["POST"],
+                         defaults={"app": app})
 
-    def get_response(self, route):
+    def get_response(self, app, route):
         query_string = ""
         if '?' in route:
             route, query_string = route.split('?', 1)
 
         builder = EnvironBuilder(path=route, query_string=query_string)
-        self.app.request_context(builder.get_environ()).push()
-        return self.app.dispatch_request()
+        app.request_context(builder.get_environ()).push()
+        return app.dispatch_request()
 
-    def post(self):
+    def post(self, app):
         try:
             data = request.data.decode('utf-8')
             routes = json.loads(data)
@@ -39,7 +39,7 @@ class Aggregator(object):
             data = None
             for route in routes:
                 yield data + ', ' if data else '{'
-                response = self.get_response(route)
+                response = self.get_response(app, route)
                 json_response = json.dumps(response)
                 data = '"{}": {}'.format(route, json_response)
             yield data + '}'
