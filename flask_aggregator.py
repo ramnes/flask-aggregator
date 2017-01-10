@@ -1,6 +1,6 @@
 import json
 
-from flask import request, Request, Response
+from flask import request, Response
 from werkzeug.exceptions import BadRequest
 from werkzeug.test import EnvironBuilder
 
