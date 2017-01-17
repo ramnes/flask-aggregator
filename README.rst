@@ -42,8 +42,8 @@ You can now just send a single POST that aggregates them all:
   -> POST /aggregate ["/route1", "/route2", "/route3"]
   <- {
          "/route1": answer1,
-         "/route2": answer2,
-         "/route3": answer3
+  <-     "/route2": answer2,
+  <-     "/route3": answer3
      }
 
 
